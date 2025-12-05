@@ -1,0 +1,82 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Launch Transaction Template",
+  "id": "Template_0nrjwte",
+  "version": 3,
+  "appliesTo": [
+    "bpmn:Activity"
+  ],
+  "elementType": {
+    "value": "bpmn:CallActivity"
+  },
+  "groups": [
+    {
+      "id": "templated-properties",
+      "label": "Templated properties",
+      "openByDefault": true
+    }
+  ],
+  "category": {
+    "id": "templates",
+    "name": "Templates"
+  },
+  "properties": [
+    {
+      "type": "String",
+      "value": "ABBYY_Vantage_Launch_Transaction_Process",
+      "binding": {
+        "type": "zeebe:calledElement",
+        "property": "processId"
+      },
+      "label": "Called Process ID",
+      "description": "ID of the process to be called by this call activity",
+      "group": "templated-properties"
+    },
+    {
+      "label": "Vantage Skill ID",
+      "type": "String",
+      "value": "",
+      "feel": "optional",
+      "constraints": {
+        "notEmpty": true
+      },
+      "binding": {
+        "type": "zeebe:input",
+        "name": "vantageSkillId"
+      },
+      "group": "templated-properties"
+    },
+    {
+      "label": "Source variable for rawFilesVantage",
+      "type": "String",
+      "value": "=rawFilesVantage",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "rawFilesVantage"
+      },
+      "group": "templated-properties"
+    },
+    {
+      "label": "Target variable for =transactionId",
+      "type": "String",
+      "value": "transactionId",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "=transactionId"
+      },
+      "group": "templated-properties"
+    },
+    {
+      "label": "Binding",
+      "description": "Binding type for the external resource",
+      "type": "Hidden",
+      "value": "latest",
+      "binding": {
+        "type": "zeebe:calledElement",
+        "property": "bindingType"
+      }
+    }
+  ],
+  "description": "Creates a transaction in ABBYY vantage, uploads all documents and returns the transactionId."
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Check Transaction Status Template",
+  "id": "Template_0ho37er",
+  "version": 3,
+  "appliesTo": [
+    "bpmn:Activity"
+  ],
+  "elementType": {
+    "value": "bpmn:CallActivity"
+  },
+  "groups": [
+    {
+      "id": "templated-properties",
+      "label": "Templated properties",
+      "openByDefault": true
+    }
+  ],
+  "category": {
+    "id": "templates",
+    "name": "Templates"
+  },
+  "properties": [
+    {
+      "type": "String",
+      "value": "ABBYY_Vantage_Check_Transaction_Status",
+      "binding": {
+        "type": "zeebe:calledElement",
+        "property": "processId"
+      },
+      "label": "Called Process ID",
+      "description": "ID of the process to be called by this call activity",
+      "group": "templated-properties"
+    },
+    {
+      "label": "Source variable for transactionId",
+      "type": "String",
+      "value": "=transactionId",
+      "feel": "required",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "transactionId"
+      },
+      "group": "templated-properties"
+    },
+    {
+      "label": "Wait Duration",
+      "type": "String",
+      "value": "PT10S",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "waitDuration"
+      },
+      "group": "templated-properties",
+      "description": "Duration to wait for the next poll"
+    },
+    {
+      "label": "Max Polls",
+      "type": "String",
+      "value": "=30",
+      "feel": "required",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "maxPolls"
+      },
+      "group": "templated-properties",
+      "description": "The maximum allowed number of attemtps, the check will fail afterwards"
+    },
+    {
+      "label": "Target variable for =transactionInfo",
+      "type": "String",
+      "value": "transactionInfo",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "=transactionInfo"
+      },
+      "group": "templated-properties"
+    },
+    {
+      "label": "Binding",
+      "description": "Binding type for the external resource",
+      "type": "Hidden",
+      "value": "latest",
+      "binding": {
+        "type": "zeebe:calledElement",
+        "property": "bindingType"
+      }
+    }
+  ],
+  "description": "Calls the ABBYY Vantage API to check the status of processing. Will retry after waitDuration and fail after maxPolls attempts."
+}

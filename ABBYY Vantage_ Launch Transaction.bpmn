@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="8a59953" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="ABBYY_Vantage_Launch_Transaction_Process" name="ABBYY Vantage Connector: Launch Transaction" isExecutable="true">
+    <bpmn:extensionElements />
+    <bpmn:serviceTask id="create_new_transaction" name="Create New Transaction" zeebe:modelerTemplate="ABBYY_Vantage_Connector" zeebe:modelerTemplateVersion="8" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDI5LjU5IDQzMC4xIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYyMDM4OwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im0xMzQwLjI4LDBsLTMwLjMsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUwxMjUyLjU2LDBoLTk1LjE2bDkxLjQ0LDMwMC45MXYxMjkuMTloODkuMzJ2LTEyOS4xOUwxNDI5LjU5LDBoLTg5LjMyWiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTEwMzIuNDUsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUw5NzUuMDQsMGgtOTUuMTZsOTEuNDQsMzAwLjkxdjEyOS4xOWg4OS4zMnYtMTI5LjE5TDExNTIuMDcsMGgtODkuMzJsLTMwLjMsMTM4Ljc2WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTIwNy4zNCwwaC0xMTkuMDlMMCw0MzAuMWg5MC4zOGwxNS4xNC05Ny4yOWg4MC44M2wxNS4xNCw5Ny4yOWg5NC4xTDIwNy4zNCwwWm0tOTAuOSwyNjIuNjNsMjAuMTktMTI5LjcyYzMuMTktMjAuMiw1LjMyLTM5Ljg3LDcuOTctNjcuNTJoMi42NmMyLjY2LDI3LjY1LDQuNzgsNDcuMzIsNy45Nyw2Ny41MmwyMC4xOSwxMjkuNzJoLTU4Ljk5WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTUxNy44MiwyMDEuNDl2LS41M2MzMC44NC0xMC42Myw1Mi42My00Mi41Myw1Mi42My04OC4yNSwwLTY5LjExLTM5LjM0LTExMi43MS0xMjMuMzQtMTEyLjcxaC0xMTkuNjJ2NDMwLjFoMTI3LjA2Yzg2LjEzLDAsMTI1LjQ3LTQ2Ljc4LDEyNS40Ny0xMjQuNCwwLTU5LjU0LTI0LjQ2LTkwLjkxLTYyLjItMTA0LjJabS0xMDMuMTQtMTM5LjI5aDI0LjQ2YzI4LjcxLDAsNDMuMDYsMTYuNDgsNDMuMDYsNTguNDhzLTE0LjM1LDU4LjQ4LTQzLjA2LDU4LjQ4aC0yNC40NlY2Mi4yWm0zMS45LDMwNS43aC0zMS45di0xMjguNjZoMzEuOWMyOS4yNCwwLDQyLjUzLDE4LjYxLDQyLjUzLDY0LjMzcy0xMy4yOSw2NC4zMy00Mi41Myw2NC4zM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im04MTQuNDgsMjAxLjQ5di0uNTNjMzAuODQtMTAuNjMsNTIuNjMtNDIuNTMsNTIuNjMtODguMjUsMC02OS4xMS0zOS4zNC0xMTIuNzEtMTIzLjM0LTExMi43MWgtMTE5LjYydjQzMC4xaDEyNy4wNmM4Ni4xMywwLDEyNS40Ny00Ni43OCwxMjUuNDctMTI0LjQsMC01OS41NC0yNC40Ni05MC45MS02Mi4yLTEwNC4yWm0tMTAzLjE0LTEzOS4yOWgyNC40NmMyOC43MSwwLDQzLjA2LDE2LjQ4LDQzLjA2LDU4LjQ4cy0xNC4zNSw1OC40OC00My4wNiw1OC40OGgtMjQuNDZWNjIuMlptMzEuOSwzMDUuN2gtMzEuOXYtMTI4LjY2aDMxLjljMjkuMjQsMCw0Mi41MywxOC42MSw0Mi41Myw2NC4zM3MtMTMuMjksNjQuMzMtNDIuNTMsNjQuMzNaIi8+Cjwvc3ZnPg==">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda:http-json:1" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction" target="operationId" />
+          <zeebe:input source="oauth-client-credentials-flow" target="authType" />
+          <zeebe:input source="oauth-client-credentials-flow" target="authentication.type" />
+          <zeebe:input source="=&#34;{{secrets.ABBYY_VANTAGE_BASE_URL}}/auth2/connect/token&#34;" target="authentication.oauthTokenEndpoint" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_CLIENT_ID}}" target="authentication.clientId" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_CLIENT_SECRET}}" target="authentication.clientSecret" />
+          <zeebe:input source="basicAuthHeader" target="authentication.clientAuthentication" />
+          <zeebe:input source="openid permissions global.wildcard" target="authentication.scopes" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_BASE_URL}}" target="baseUrl" />
+          <zeebe:input source="text/plain" target="Accept" />
+          <zeebe:input source="application/json" target="Content_Type" />
+          <zeebe:input source="=&#34;&#34;+baseUrl+&#34;/api/publicapi/v1/transactions&#34;" target="operationPath" />
+          <zeebe:input source="={Accept: Accept, Content-Type: Content_Type}" target="headers" />
+          <zeebe:input source="={}" target="queryParameters" />
+          <zeebe:input source="POST" target="method" />
+          <zeebe:input source="={&#10;  &#34;skillId&#34;: vantageSkillId,&#10;  &#34;generateMobileInputLink&#34;: false,&#10;  &#34;registrationParameters&#34;: [],&#10;  &#34;skillParameters&#34;: []&#10;}" target="body" />
+          <zeebe:input source="= operationPath" target="url" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="resultExpression" value="=  {&#10;    transactionId: body.transactionId,&#10;    mobileInputLink: body.mobileInputLink&#10;  }" />
+          <zeebe:header key="retryBackoff" value="PT0S" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1it1xqd</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xesqlc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:subProcess id="create_transaction_documents" name="Create Transaction Documents">
+      <bpmn:incoming>Flow_0xesqlc</bpmn:incoming>
+      <bpmn:outgoing>Flow_0t6uy4k</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true">
+        <bpmn:extensionElements>
+          <zeebe:loopCharacteristics inputCollection="=rawFilesVantage" inputElement="file" outputCollection="documents" outputElement="=document" />
+        </bpmn:extensionElements>
+      </bpmn:multiInstanceLoopCharacteristics>
+      <bpmn:serviceTask id="add_files_to_transaction" name="Add Files to Transaction" zeebe:modelerTemplate="ABBYY_Vantage_Connector" zeebe:modelerTemplateVersion="8" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDI5LjU5IDQzMC4xIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYyMDM4OwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im0xMzQwLjI4LDBsLTMwLjMsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUwxMjUyLjU2LDBoLTk1LjE2bDkxLjQ0LDMwMC45MXYxMjkuMTloODkuMzJ2LTEyOS4xOUwxNDI5LjU5LDBoLTg5LjMyWiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTEwMzIuNDUsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUw5NzUuMDQsMGgtOTUuMTZsOTEuNDQsMzAwLjkxdjEyOS4xOWg4OS4zMnYtMTI5LjE5TDExNTIuMDcsMGgtODkuMzJsLTMwLjMsMTM4Ljc2WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTIwNy4zNCwwaC0xMTkuMDlMMCw0MzAuMWg5MC4zOGwxNS4xNC05Ny4yOWg4MC44M2wxNS4xNCw5Ny4yOWg5NC4xTDIwNy4zNCwwWm0tOTAuOSwyNjIuNjNsMjAuMTktMTI5LjcyYzMuMTktMjAuMiw1LjMyLTM5Ljg3LDcuOTctNjcuNTJoMi42NmMyLjY2LDI3LjY1LDQuNzgsNDcuMzIsNy45Nyw2Ny41MmwyMC4xOSwxMjkuNzJoLTU4Ljk5WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTUxNy44MiwyMDEuNDl2LS41M2MzMC44NC0xMC42Myw1Mi42My00Mi41Myw1Mi42My04OC4yNSwwLTY5LjExLTM5LjM0LTExMi43MS0xMjMuMzQtMTEyLjcxaC0xMTkuNjJ2NDMwLjFoMTI3LjA2Yzg2LjEzLDAsMTI1LjQ3LTQ2Ljc4LDEyNS40Ny0xMjQuNCwwLTU5LjU0LTI0LjQ2LTkwLjkxLTYyLjItMTA0LjJabS0xMDMuMTQtMTM5LjI5aDI0LjQ2YzI4LjcxLDAsNDMuMDYsMTYuNDgsNDMuMDYsNTguNDhzLTE0LjM1LDU4LjQ4LTQzLjA2LDU4LjQ4aC0yNC40NlY2Mi4yWm0zMS45LDMwNS43aC0zMS45di0xMjguNjZoMzEuOWMyOS4yNCwwLDQyLjUzLDE4LjYxLDQyLjUzLDY0LjMzcy0xMy4yOSw2NC4zMy00Mi41Myw2NC4zM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im04MTQuNDgsMjAxLjQ5di0uNTNjMzAuODQtMTAuNjMsNTIuNjMtNDIuNTMsNTIuNjMtODguMjUsMC02OS4xMS0zOS4zNC0xMTIuNzEtMTIzLjM0LTExMi43MWgtMTE5LjYydjQzMC4xaDEyNy4wNmM4Ni4xMywwLDEyNS40Ny00Ni43OCwxMjUuNDctMTI0LjQsMC01OS41NC0yNC40Ni05MC45MS02Mi4yLTEwNC4yWm0tMTAzLjE0LTEzOS4yOWgyNC40NmMyOC43MSwwLDQzLjA2LDE2LjQ4LDQzLjA2LDU4LjQ4cy0xNC4zNSw1OC40OC00My4wNiw1OC40OGgtMjQuNDZWNjIuMlptMzEuOSwzMDUuN2gtMzEuOXYtMTI4LjY2aDMxLjljMjkuMjQsMCw0Mi41MywxOC42MSw0Mi41Myw2NC4zM3MtMTMuMjksNjQuMzMtNDIuNTMsNjQuMzNaIi8+Cjwvc3ZnPg==">
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="io.camunda:http-json:1" retries="3" />
+          <zeebe:ioMapping>
+            <zeebe:input source="adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction" target="operationId" />
+            <zeebe:input source="oauth-client-credentials-flow" target="authType" />
+            <zeebe:input source="oauth-client-credentials-flow" target="authentication.type" />
+            <zeebe:input source="=&#34;{{secrets.ABBYY_VANTAGE_BASE_URL}}/auth2/connect/token&#34;" target="authentication.oauthTokenEndpoint" />
+            <zeebe:input source="{{secrets.ABBYY_VANTAGE_CLIENT_ID}}" target="authentication.clientId" />
+            <zeebe:input source="{{secrets.ABBYY_VANTAGE_CLIENT_SECRET}}" target="authentication.clientSecret" />
+            <zeebe:input source="basicAuthHeader" target="authentication.clientAuthentication" />
+            <zeebe:input source="openid permissions global.wildcard" target="authentication.scopes" />
+            <zeebe:input source="{{secrets.ABBYY_VANTAGE_BASE_URL}}" target="baseUrl" />
+            <zeebe:input source="multipart/form-data" target="Content_Type" />
+            <zeebe:input source="text/plain" target="Accept" />
+            <zeebe:input source="=transactionId" target="transactionId" />
+            <zeebe:input source="=&#34;&#34;+baseUrl+&#34;/api/publicapi/v1/transactions/&#34;+transactionId+&#34;/files&#34;" target="operationPath" />
+            <zeebe:input source="={Accept: Accept, Content-Type: Content_Type}" target="headers" />
+            <zeebe:input source="={}" target="queryParameters" />
+            <zeebe:input source="POST" target="method" />
+            <zeebe:input source="={&#34;file&#34;: file}" target="body" />
+            <zeebe:input source="= operationPath" target="url" />
+          </zeebe:ioMapping>
+          <zeebe:taskHeaders>
+            <zeebe:header key="resultVariable" value="fileUploadResponseDebug" />
+            <zeebe:header key="retryBackoff" value="PT0S" />
+          </zeebe:taskHeaders>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_1c49osg</bpmn:incoming>
+        <bpmn:outgoing>Flow_1lqli2p</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:endEvent id="Event_1o16pp3" name="File attached to transaction">
+        <bpmn:incoming>Flow_1lqli2p</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_1c49osg" sourceRef="Event_1r9526r" targetRef="add_files_to_transaction" />
+      <bpmn:sequenceFlow id="Flow_1lqli2p" sourceRef="add_files_to_transaction" targetRef="Event_1o16pp3" />
+      <bpmn:startEvent id="Event_1r9526r" name="Next File">
+        <bpmn:outgoing>Flow_1c49osg</bpmn:outgoing>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:startEvent id="Files_Recieved_StartEvent1" name="Files Recieved">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=RawFiles_Vantage" target="RawFiles_Vantage" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1it1xqd</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0t6uy4k" sourceRef="create_transaction_documents" targetRef="start_transaction" />
+    <bpmn:sequenceFlow id="Flow_0xesqlc" sourceRef="create_new_transaction" targetRef="create_transaction_documents" />
+    <bpmn:sequenceFlow id="Flow_1it1xqd" sourceRef="Files_Recieved_StartEvent1" targetRef="create_new_transaction" />
+    <bpmn:sequenceFlow id="Flow_1ngw3ad" sourceRef="start_transaction" targetRef="transaction_Start_ID" />
+    <bpmn:serviceTask id="start_transaction" name="Start Transaction" zeebe:modelerTemplate="ABBYY_Vantage_Connector" zeebe:modelerTemplateVersion="8" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDI5LjU5IDQzMC4xIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYyMDM4OwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im0xMzQwLjI4LDBsLTMwLjMsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUwxMjUyLjU2LDBoLTk1LjE2bDkxLjQ0LDMwMC45MXYxMjkuMTloODkuMzJ2LTEyOS4xOUwxNDI5LjU5LDBoLTg5LjMyWiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTEwMzIuNDUsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUw5NzUuMDQsMGgtOTUuMTZsOTEuNDQsMzAwLjkxdjEyOS4xOWg4OS4zMnYtMTI5LjE5TDExNTIuMDcsMGgtODkuMzJsLTMwLjMsMTM4Ljc2WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTIwNy4zNCwwaC0xMTkuMDlMMCw0MzAuMWg5MC4zOGwxNS4xNC05Ny4yOWg4MC44M2wxNS4xNCw5Ny4yOWg5NC4xTDIwNy4zNCwwWm0tOTAuOSwyNjIuNjNsMjAuMTktMTI5LjcyYzMuMTktMjAuMiw1LjMyLTM5Ljg3LDcuOTctNjcuNTJoMi42NmMyLjY2LDI3LjY1LDQuNzgsNDcuMzIsNy45Nyw2Ny41MmwyMC4xOSwxMjkuNzJoLTU4Ljk5WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTUxNy44MiwyMDEuNDl2LS41M2MzMC44NC0xMC42Myw1Mi42My00Mi41Myw1Mi42My04OC4yNSwwLTY5LjExLTM5LjM0LTExMi43MS0xMjMuMzQtMTEyLjcxaC0xMTkuNjJ2NDMwLjFoMTI3LjA2Yzg2LjEzLDAsMTI1LjQ3LTQ2Ljc4LDEyNS40Ny0xMjQuNCwwLTU5LjU0LTI0LjQ2LTkwLjkxLTYyLjItMTA0LjJabS0xMDMuMTQtMTM5LjI5aDI0LjQ2YzI4LjcxLDAsNDMuMDYsMTYuNDgsNDMuMDYsNTguNDhzLTE0LjM1LDU4LjQ4LTQzLjA2LDU4LjQ4aC0yNC40NlY2Mi4yWm0zMS45LDMwNS43aC0zMS45di0xMjguNjZoMzEuOWMyOS4yNCwwLDQyLjUzLDE4LjYxLDQyLjUzLDY0LjMzcy0xMy4yOSw2NC4zMy00Mi41Myw2NC4zM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im04MTQuNDgsMjAxLjQ5di0uNTNjMzAuODQtMTAuNjMsNTIuNjMtNDIuNTMsNTIuNjMtODguMjUsMC02OS4xMS0zOS4zNC0xMTIuNzEtMTIzLjM0LTExMi43MWgtMTE5LjYydjQzMC4xaDEyNy4wNmM4Ni4xMywwLDEyNS40Ny00Ni43OCwxMjUuNDctMTI0LjQsMC01OS41NC0yNC40Ni05MC45MS02Mi4yLTEwNC4yWm0tMTAzLjE0LTEzOS4yOWgyNC40NmMyOC43MSwwLDQzLjA2LDE2LjQ4LDQzLjA2LDU4LjQ4cy0xNC4zNSw1OC40OC00My4wNiw1OC40OGgtMjQuNDZWNjIuMlptMzEuOSwzMDUuN2gtMzEuOXYtMTI4LjY2aDMxLjljMjkuMjQsMCw0Mi41MywxOC42MSw0Mi41Myw2NC4zM3MtMTMuMjksNjQuMzMtNDIuNTMsNjQuMzNaIi8+Cjwvc3ZnPg==">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda:http-json:1" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction" target="operationId" />
+          <zeebe:input source="oauth-client-credentials-flow" target="authType" />
+          <zeebe:input source="oauth-client-credentials-flow" target="authentication.type" />
+          <zeebe:input source="=&#34;{{secrets.ABBYY_VANTAGE_BASE_URL}}/auth2/connect/token&#34;" target="authentication.oauthTokenEndpoint" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_CLIENT_ID}}" target="authentication.clientId" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_CLIENT_SECRET}}" target="authentication.clientSecret" />
+          <zeebe:input source="basicAuthHeader" target="authentication.clientAuthentication" />
+          <zeebe:input source="openid permissions global.wildcard" target="authentication.scopes" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_BASE_URL}}" target="baseUrl" />
+          <zeebe:input source="text/plain" target="Accept" />
+          <zeebe:input source="=transactionId" target="transactionId" />
+          <zeebe:input source="=&#34;&#34;+baseUrl+&#34;/api/publicapi/v1/transactions/&#34;+transactionId+&#34;/start&#34;" target="operationPath" />
+          <zeebe:input source="={Accept: Accept}" target="headers" />
+          <zeebe:input source="={}" target="queryParameters" />
+          <zeebe:input source="POST" target="method" />
+          <zeebe:input source="={}" target="body" />
+          <zeebe:input source="= operationPath" target="url" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="resultVariable" value="startTransactionResponseDebug" />
+          <zeebe:header key="retryBackoff" value="PT0S" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0t6uy4k</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ngw3ad</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="transaction_Start_ID" name="Transaction Started">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=transactionId" target="transactionId" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ngw3ad</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ABBYY_Vantage_Launch_Transaction_Process">
+      <bpmndi:BPMNShape id="Activity_0kfxlfy_di" bpmnElement="create_new_transaction">
+        <dc:Bounds x="440" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bqwqit_di" bpmnElement="create_transaction_documents" isExpanded="true" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="600" y="18" width="320" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16wx4uo_di" bpmnElement="add_files_to_transaction">
+        <dc:Bounds x="700" y="78" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1o16pp3_di" bpmnElement="Event_1o16pp3">
+        <dc:Bounds x="852" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="832" y="143" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1r9526r_di" bpmnElement="Event_1r9526r">
+        <dc:Bounds x="620" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="618" y="143" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1c49osg_di" bpmnElement="Flow_1c49osg">
+        <di:waypoint x="656" y="118" />
+        <di:waypoint x="700" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lqli2p_di" bpmnElement="Flow_1lqli2p">
+        <di:waypoint x="800" y="118" />
+        <di:waypoint x="852" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Files_Recieved_StartEvent1" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="342" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="324" y="143" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1df77co_di" bpmnElement="start_transaction">
+        <dc:Bounds x="960" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0aum4i3_di" bpmnElement="transaction_Start_ID" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1102" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1091" y="143" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0t6uy4k_di" bpmnElement="Flow_0t6uy4k">
+        <di:waypoint x="920" y="118" />
+        <di:waypoint x="960" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xesqlc_di" bpmnElement="Flow_0xesqlc">
+        <di:waypoint x="540" y="118" />
+        <di:waypoint x="600" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1it1xqd_di" bpmnElement="Flow_1it1xqd">
+        <di:waypoint x="378" y="118" />
+        <di:waypoint x="440" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ngw3ad_di" bpmnElement="Flow_1ngw3ad">
+        <di:waypoint x="1060" y="118" />
+        <di:waypoint x="1102" y="118" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

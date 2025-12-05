@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="8a59953" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="ABBYY_Vantage_Check_Transaction_Status" name="ABBYY Vantage Connector: Check Transaction Status" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:properties>
+        <zeebe:property name="TransactionInfo" value="TransactionInfo" />
+        <zeebe:property name="MobileReviewLink" value="TransactionInfo.ManualReviewLink" />
+      </zeebe:properties>
+    </bpmn:extensionElements>
+    <bpmn:sequenceFlow id="Flow_0h4mro5" name="&#34;Processed&#34;" sourceRef="Transaction_Status_Gateway" targetRef="Transaction_Processed_Status">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=transactionInfo.transactionStatus = "Processed"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0nv3rkq" name="&#34;Processing&#34;" sourceRef="Transaction_Status_Gateway" targetRef="Tranaction_ManualReview_Gateway">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=transactionInfo.transactionStatus = "Processing"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_08tfkvt" sourceRef="Get_Tranaction_Information" targetRef="Transaction_Status_Gateway" />
+    <bpmn:sequenceFlow id="Flow_0k0gwwv" sourceRef="Increment_Activity_0d3fx1g" targetRef="Timer_Event_1gyt696" />
+    <bpmn:exclusiveGateway id="Transaction_Status_Gateway" name="Check Transaction Processed">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_08tfkvt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h4mro5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_03pazoi</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0nv3rkq</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Tranaction_ManualReview_Gateway" name="Check for Manual Review Link">
+      <bpmn:incoming>Flow_0nv3rkq</bpmn:incoming>
+      <bpmn:outgoing>Flow_05ytfna</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1vu05g3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Transaction_In_ManualReview" name="Handle Manual Review">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=TransactionInfo" target="TransactionInfo" />
+          <zeebe:output source="=TransactionInfo.ManualReviewLink" target="ManualReviewLink" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1vu05g3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1vu05g3" name="Has Manual Review Link" sourceRef="Tranaction_ManualReview_Gateway" targetRef="Transaction_In_ManualReview">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=transactionInfo.manualReviewLink != null</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:scriptTask id="Increment_Activity_0d3fx1g" name="increment poll counter">
+      <bpmn:extensionElements>
+        <zeebe:script expression="=pollCounter + 1" resultVariable="PollCounter" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_05ytfna</bpmn:incoming>
+      <bpmn:outgoing>Flow_0k0gwwv</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_03pazoi" name="Neither processing nor processed" sourceRef="Transaction_Status_Gateway" targetRef="Transaction_Failed_Status">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=(
+  transactionInfo.transactionStatus != "Processed" 
+  and 
+  transactionInfo.transactionStatus != "Processing"
+)
+or 
+(transactionInfo.error != null)
+or
+(pollCounter &gt; maxPolls)
+</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_05ytfna" name="No Manual Review Link" sourceRef="Tranaction_ManualReview_Gateway" targetRef="Increment_Activity_0d3fx1g">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=transactionInfo.manualReviewLink = null</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Transaction_Processed_Status" name="Processing Complete">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=TransactionInfo" target="TransactionInfo" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0h4mro5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Transaction_Failed_Status" name="Processing Failed">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=TransactionInfo" target="TransactionInfo" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_03pazoi</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=1" target="pollCounter" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0iycun3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="Timer_Event_1gyt696" name="Wait">
+      <bpmn:incoming>Flow_0k0gwwv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nxk25x</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_09revuk">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">=waitDuration</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="Get_Tranaction_Information" name="Get Transaction Status" zeebe:modelerTemplate="ABBYY_Vantage_Connector" zeebe:modelerTemplateVersion="8" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDI5LjU5IDQzMC4xIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYyMDM4OwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im0xMzQwLjI4LDBsLTMwLjMsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUwxMjUyLjU2LDBoLTk1LjE2bDkxLjQ0LDMwMC45MXYxMjkuMTloODkuMzJ2LTEyOS4xOUwxNDI5LjU5LDBoLTg5LjMyWiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTEwMzIuNDUsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUw5NzUuMDQsMGgtOTUuMTZsOTEuNDQsMzAwLjkxdjEyOS4xOWg4OS4zMnYtMTI5LjE5TDExNTIuMDcsMGgtODkuMzJsLTMwLjMsMTM4Ljc2WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTIwNy4zNCwwaC0xMTkuMDlMMCw0MzAuMWg5MC4zOGwxNS4xNC05Ny4yOWg4MC44M2wxNS4xNCw5Ny4yOWg5NC4xTDIwNy4zNCwwWm0tOTAuOSwyNjIuNjNsMjAuMTktMTI5LjcyYzMuMTktMjAuMiw1LjMyLTM5Ljg3LDcuOTctNjcuNTJoMi42NmMyLjY2LDI3LjY1LDQuNzgsNDcuMzIsNy45Nyw2Ny41MmwyMC4xOSwxMjkuNzJoLTU4Ljk5WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTUxNy44MiwyMDEuNDl2LS41M2MzMC44NC0xMC42Myw1Mi42My00Mi41Myw1Mi42My04OC4yNSwwLTY5LjExLTM5LjM0LTExMi43MS0xMjMuMzQtMTEyLjcxaC0xMTkuNjJ2NDMwLjFoMTI3LjA2Yzg2LjEzLDAsMTI1LjQ3LTQ2Ljc4LDEyNS40Ny0xMjQuNCwwLTU5LjU0LTI0LjQ2LTkwLjkxLTYyLjItMTA0LjJabS0xMDMuMTQtMTM5LjI5aDI0LjQ2YzI4LjcxLDAsNDMuMDYsMTYuNDgsNDMuMDYsNTguNDhzLTE0LjM1LDU4LjQ4LTQzLjA2LDU4LjQ4aC0yNC40NlY2Mi4yWm0zMS45LDMwNS43aC0zMS45di0xMjguNjZoMzEuOWMyOS4yNCwwLDQyLjUzLDE4LjYxLDQyLjUzLDY0LjMzcy0xMy4yOSw2NC4zMy00Mi41Myw2NC4zM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im04MTQuNDgsMjAxLjQ5di0uNTNjMzAuODQtMTAuNjMsNTIuNjMtNDIuNTMsNTIuNjMtODguMjUsMC02OS4xMS0zOS4zNC0xMTIuNzEtMTIzLjM0LTExMi43MWgtMTE5LjYydjQzMC4xaDEyNy4wNmM4Ni4xMywwLDEyNS40Ny00Ni43OCwxMjUuNDctMTI0LjQsMC01OS41NC0yNC40Ni05MC45MS02Mi4yLTEwNC4yWm0tMTAzLjE0LTEzOS4yOWgyNC40NmMyOC43MSwwLDQzLjA2LDE2LjQ4LDQzLjA2LDU4LjQ4cy0xNC4zNSw1OC40OC00My4wNiw1OC40OGgtMjQuNDZWNjIuMlptMzEuOSwzMDUuN2gtMzEuOXYtMTI4LjY2aDMxLjljMjkuMjQsMCw0Mi41MywxOC42MSw0Mi41Myw2NC4zM3MtMTMuMjksNjQuMzMtNDIuNTMsNjQuMzNaIi8+Cjwvc3ZnPg==">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda:http-json:1" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info" target="operationId" />
+          <zeebe:input source="oauth-client-credentials-flow" target="authType" />
+          <zeebe:input source="oauth-client-credentials-flow" target="authentication.type" />
+          <zeebe:input source="=&#34;{{secrets.ABBYY_VANTAGE_BASE_URL}}/auth2/connect/token&#34;" target="authentication.oauthTokenEndpoint" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_CLIENT_ID}}" target="authentication.clientId" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_CLIENT_SECRET}}" target="authentication.clientSecret" />
+          <zeebe:input source="basicAuthHeader" target="authentication.clientAuthentication" />
+          <zeebe:input source="openid permissions global.wildcard" target="authentication.scopes" />
+          <zeebe:input source="{{secrets.ABBYY_VANTAGE_BASE_URL}}" target="baseUrl" />
+          <zeebe:input source="text/plain" target="Accept" />
+          <zeebe:input source="=transactionId" target="transactionId" />
+          <zeebe:input source="=&#34;&#34;+baseUrl+&#34;/api/publicapi/v1/transactions/&#34;+transactionId" target="operationPath" />
+          <zeebe:input source="={Accept: Accept}" target="headers" />
+          <zeebe:input source="={}" target="queryParameters" />
+          <zeebe:input source="GET" target="method" />
+          <zeebe:input source="= operationPath" target="url" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="resultExpression" value="= { &#10;   transactionInfo: &#10;   {&#10;     transactionID: body.id,&#10;     transactionStatus: body.status,&#10;     manualReviewLink: body.manualReviewLink,&#10;     documents: body.documents,&#10;     error: body.error,&#10;     sourceFiles: body.sourceFiles&#10;   }&#10; }" />
+          <zeebe:header key="retryBackoff" value="PT0S" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00bhrwz</bpmn:incoming>
+      <bpmn:outgoing>Flow_08tfkvt</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0iycun3" sourceRef="StartEvent_1" targetRef="Gateway_1qjviue" />
+    <bpmn:sequenceFlow id="Flow_1nxk25x" sourceRef="Timer_Event_1gyt696" targetRef="Gateway_1qjviue" />
+    <bpmn:exclusiveGateway id="Gateway_1qjviue">
+      <bpmn:incoming>Flow_0iycun3</bpmn:incoming>
+      <bpmn:incoming>Flow_1nxk25x</bpmn:incoming>
+      <bpmn:outgoing>Flow_00bhrwz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_00bhrwz" sourceRef="Gateway_1qjviue" targetRef="Get_Tranaction_Information" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ABBYY_Vantage_Check_Transaction_Status">
+      <bpmndi:BPMNShape id="Gateway_1ol6zey_di" bpmnElement="Transaction_Status_Gateway" isMarkerVisible="true">
+        <dc:Bounds x="625" y="243" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="581" y="287" width="58" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1yew9mc_di" bpmnElement="Tranaction_ManualReview_Gateway" isMarkerVisible="true">
+        <dc:Bounds x="625" y="110" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="607" y="80" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0vms4ed_di" bpmnElement="Transaction_In_ManualReview" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="792" y="117" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="793" y="160" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0d3fx1g_di" bpmnElement="Increment_Activity_0d3fx1g">
+        <dc:Bounds x="400" y="95" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0pi3kpn_di" bpmnElement="Transaction_Processed_Status" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="792" y="250" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="802" y="293" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1a91xij_di" bpmnElement="Transaction_Failed_Status" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="792" y="402" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="796" y="445" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="192" y="250" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="201" y="293" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1tsjfg9_di" bpmnElement="Timer_Event_1gyt696">
+        <dc:Bounds x="302" y="117" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="311" y="93" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07jvyfg_di" bpmnElement="Get_Tranaction_Information">
+        <dc:Bounds x="400" y="228" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1qjviue_di" bpmnElement="Gateway_1qjviue" isMarkerVisible="true">
+        <dc:Bounds x="295" y="243" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0h4mro5_di" bpmnElement="Flow_0h4mro5">
+        <di:waypoint x="675" y="268" />
+        <di:waypoint x="792" y="268" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="687" y="273" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nv3rkq_di" bpmnElement="Flow_0nv3rkq">
+        <di:waypoint x="650" y="243" />
+        <di:waypoint x="650" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="658" y="193" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08tfkvt_di" bpmnElement="Flow_08tfkvt">
+        <di:waypoint x="500" y="268" />
+        <di:waypoint x="625" y="268" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k0gwwv_di" bpmnElement="Flow_0k0gwwv">
+        <di:waypoint x="400" y="135" />
+        <di:waypoint x="338" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vu05g3_di" bpmnElement="Flow_1vu05g3">
+        <di:waypoint x="675" y="135" />
+        <di:waypoint x="792" y="135" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="688" y="101" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03pazoi_di" bpmnElement="Flow_03pazoi">
+        <di:waypoint x="650" y="293" />
+        <di:waypoint x="650" y="420" />
+        <di:waypoint x="792" y="420" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="681" y="432" width="73" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05ytfna_di" bpmnElement="Flow_05ytfna">
+        <di:waypoint x="625" y="135" />
+        <di:waypoint x="500" y="135" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="541" y="101" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iycun3_di" bpmnElement="Flow_0iycun3">
+        <di:waypoint x="228" y="268" />
+        <di:waypoint x="295" y="268" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nxk25x_di" bpmnElement="Flow_1nxk25x">
+        <di:waypoint x="320" y="153" />
+        <di:waypoint x="320" y="243" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00bhrwz_di" bpmnElement="Flow_00bhrwz">
+        <di:waypoint x="345" y="268" />
+        <di:waypoint x="400" y="268" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

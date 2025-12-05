@@ -1,0 +1,1372 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "ABBYY Vantage Connector",
+  "id": "ABBYY_Vantage_Connector",
+  "version": 8,
+  "category": {
+    "id": "connectors",
+    "name": "Connectors"
+  },
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "groups": [
+    {
+      "id": "server",
+      "label": "Server"
+    },
+    {
+      "id": "operation",
+      "label": "Operation"
+    },
+    {
+      "id": "authentication",
+      "label": "Authentication"
+    },
+    {
+      "id": "parameters",
+      "label": "Parameters"
+    },
+    {
+      "id": "requestBody",
+      "label": "Request body"
+    },
+    {
+      "id": "url",
+      "label": "URL"
+    },
+    {
+      "id": "output",
+      "label": "Output mapping"
+    },
+    {
+      "id": "error",
+      "label": "Error handling"
+    },
+    {
+      "id": "retries",
+      "label": "Retries"
+    }
+  ],
+  "properties": [
+    {
+      "value": "io.camunda:http-json:1",
+      "binding": {
+        "property": "type",
+        "type": "zeebe:taskDefinition"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "operationId",
+      "value": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+      "group": "operation",
+      "binding": {
+        "name": "operationId",
+        "type": "zeebe:input"
+      },
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "Gets transaction info",
+          "value": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info"
+        },
+        {
+          "name": "Creates a processing transaction",
+          "value": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction"
+        },
+        {
+          "name": "Starts processing of the files in new transaction",
+          "value": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction"
+        },
+        {
+          "name": "Downloads the source file of the transaction",
+          "value": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction"
+        },
+        {
+          "name": "Adds files to the transaction",
+          "value": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction"
+        },
+        {
+          "name": "Starts the transaction",
+          "value": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction"
+        },
+        {
+          "name": "Downloads the result files",
+          "value": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+        }
+      ]
+    },
+    {
+      "id": "authType",
+      "value": "oauth-client-credentials-flow",
+      "group": "authentication",
+      "binding": {
+        "name": "authType",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "oneOf": [
+          "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+          "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+          "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+          "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+          "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+          "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+          "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+        ],
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "oauth-client-credentials-flow",
+      "value": "oauth-client-credentials-flow",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.type",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "allMatch": [
+          {
+            "property": "authType",
+            "equals": "oauth-client-credentials-flow",
+            "type": "simple"
+          },
+          {
+            "property": "operationId",
+            "oneOf": [
+              "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+              "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+              "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+              "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+              "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+              "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+              "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+            ],
+            "type": "simple"
+          }
+        ]
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "authentication.oauthTokenEndpoint",
+      "label": "Oauth token endpoint",
+      "description": "The OAuth token endpoint",
+      "optional": false,
+      "value": "=\"{{secrets.ABBYY_VANTAGE_BASE_URL}}/auth2/connect/token\"",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.oauthTokenEndpoint",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "allMatch": [
+          {
+            "property": "authType",
+            "equals": "oauth-client-credentials-flow",
+            "type": "simple"
+          },
+          {
+            "property": "operationId",
+            "oneOf": [
+              "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+              "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+              "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+              "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+              "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+              "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+              "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+            ],
+            "type": "simple"
+          }
+        ]
+      },
+      "type": "String"
+    },
+    {
+      "id": "authentication.clientId",
+      "label": "Client id",
+      "description": "Your application's client ID from the OAuth client",
+      "optional": false,
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.clientId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "allMatch": [
+          {
+            "property": "authType",
+            "equals": "oauth-client-credentials-flow",
+            "type": "simple"
+          },
+          {
+            "property": "operationId",
+            "oneOf": [
+              "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+              "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+              "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+              "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+              "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+              "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+              "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+            ],
+            "type": "simple"
+          }
+        ]
+      },
+      "type": "String",
+      "value": "{{secrets.ABBYY_VANTAGE_CLIENT_ID}}"
+    },
+    {
+      "id": "authentication.clientSecret",
+      "label": "Client secret",
+      "description": "Your application's client secret from the OAuth client",
+      "optional": false,
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.clientSecret",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "allMatch": [
+          {
+            "property": "authType",
+            "equals": "oauth-client-credentials-flow",
+            "type": "simple"
+          },
+          {
+            "property": "operationId",
+            "oneOf": [
+              "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+              "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+              "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+              "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+              "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+              "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+              "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+            ],
+            "type": "simple"
+          }
+        ]
+      },
+      "type": "String",
+      "value": "{{secrets.ABBYY_VANTAGE_CLIENT_SECRET}}"
+    },
+    {
+      "id": "authentication.clientAuthentication",
+      "label": "Client authentication method",
+      "description": "How to send client_id/client_secret to token endpoint",
+      "optional": false,
+      "value": "basicAuthHeader",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.clientAuthentication",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "allMatch": [
+          {
+            "property": "authType",
+            "equals": "oauth-client-credentials-flow",
+            "type": "simple"
+          },
+          {
+            "property": "operationId",
+            "oneOf": [
+              "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+              "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+              "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+              "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+              "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+              "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+              "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+            ],
+            "type": "simple"
+          }
+        ]
+      },
+      "type": "String"
+    },
+    {
+      "id": "authentication.audience",
+      "label": "Audience",
+      "description": "The unique identifier of the target API you want to access (optional)",
+      "optional": true,
+      "feel": "optional",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.audience",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "allMatch": [
+          {
+            "property": "authType",
+            "equals": "oauth-client-credentials-flow",
+            "type": "simple"
+          },
+          {
+            "property": "operationId",
+            "oneOf": [
+              "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+              "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+              "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+              "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+              "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+              "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+              "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+            ],
+            "type": "simple"
+          }
+        ]
+      },
+      "type": "String"
+    },
+    {
+      "id": "authentication.scopes",
+      "label": "Scopes",
+      "description": "The scopes which you want to request authorization for (e.g.read:contacts)",
+      "optional": false,
+      "value": "openid permissions global.wildcard",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.scopes",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "allMatch": [
+          {
+            "property": "authType",
+            "equals": "oauth-client-credentials-flow",
+            "type": "simple"
+          },
+          {
+            "property": "operationId",
+            "oneOf": [
+              "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+              "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+              "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+              "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+              "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+              "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+              "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+            ],
+            "type": "simple"
+          }
+        ]
+      },
+      "type": "String"
+    },
+    {
+      "id": "baseUrl",
+      "label": "Base url",
+      "description": "",
+      "optional": false,
+      "value": "{{secrets.ABBYY_VANTAGE_BASE_URL}}",
+      "constraints": {
+        "notEmpty": true
+      },
+      "group": "parameters",
+      "binding": {
+        "name": "baseUrl",
+        "type": "zeebe:input"
+      },
+      "type": "String",
+      "feel": "optional"
+    },
+    {
+      "id": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info_header_Accept",
+      "label": "Accept",
+      "description": "",
+      "optional": true,
+      "value": "text/plain",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Accept",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info_path_transactionId",
+      "label": "Transaction id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "transactionId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info_$path",
+      "value": "=\"\"+baseUrl+\"/api/publicapi/v1/transactions/\"+transactionId",
+      "group": "parameters",
+      "binding": {
+        "name": "operationPath",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info_$headers",
+      "value": "={Accept: Accept}",
+      "group": "parameters",
+      "binding": {
+        "name": "headers",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info_$queryParameters",
+      "value": "={}",
+      "group": "parameters",
+      "binding": {
+        "name": "queryParameters",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info_$method",
+      "value": "GET",
+      "group": "parameters",
+      "binding": {
+        "name": "method",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "gets_transaction_info__vantage_public_api___code_flow_auth_transactions_gets_transaction_info",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction_header_Accept",
+      "label": "Accept",
+      "description": "",
+      "optional": true,
+      "value": "text/plain",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Accept",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction_header_Content-Type",
+      "label": "Content- type",
+      "description": "",
+      "optional": true,
+      "value": "application/json",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Content_Type",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction_$path",
+      "value": "=\"\"+baseUrl+\"/api/publicapi/v1/transactions\"",
+      "group": "parameters",
+      "binding": {
+        "name": "operationPath",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction_$headers",
+      "value": "={Accept: Accept, Content-Type: Content_Type}",
+      "group": "parameters",
+      "binding": {
+        "name": "headers",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction_$queryParameters",
+      "value": "={}",
+      "group": "parameters",
+      "binding": {
+        "name": "queryParameters",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction_$method",
+      "value": "POST",
+      "group": "parameters",
+      "binding": {
+        "name": "method",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction_query_skillId",
+      "label": "Skill id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "skillId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction_header_Content-Type",
+      "label": "Content- type",
+      "description": "",
+      "optional": true,
+      "value": "multipart/form-data",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Content_Type",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction_header_Accept",
+      "label": "Accept",
+      "description": "",
+      "optional": true,
+      "value": "text/plain",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Accept",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction_$path",
+      "value": "=\"\"+baseUrl+\"/api/publicapi/v1/transactions/launch\"",
+      "group": "parameters",
+      "binding": {
+        "name": "operationPath",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction_$headers",
+      "value": "={Accept: Accept, Content-Type: Content_Type}",
+      "group": "parameters",
+      "binding": {
+        "name": "headers",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction_$queryParameters",
+      "value": "={skillId: skillId}",
+      "group": "parameters",
+      "binding": {
+        "name": "queryParameters",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction_$method",
+      "value": "POST",
+      "group": "parameters",
+      "binding": {
+        "name": "method",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction_header_Accept",
+      "label": "Accept",
+      "description": "",
+      "optional": true,
+      "value": "application/octet-stream",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Accept",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction_path_documentId",
+      "label": "Document id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "documentId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction_path_fileId",
+      "label": "File id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "fileId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction_path_transactionId",
+      "label": "Transaction id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "transactionId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction_$path",
+      "value": "=\"\"+baseUrl+\"/api/publicapi/v1/transactions/\"+transactionId+\"/documents/\"+documentId+\"/sourceFiles/\"+fileId+\"/download\"",
+      "group": "parameters",
+      "binding": {
+        "name": "operationPath",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction_$headers",
+      "value": "={Accept: Accept}",
+      "group": "parameters",
+      "binding": {
+        "name": "headers",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction_$queryParameters",
+      "value": "={}",
+      "group": "parameters",
+      "binding": {
+        "name": "queryParameters",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction_$method",
+      "value": "GET",
+      "group": "parameters",
+      "binding": {
+        "name": "method",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction_header_Content-Type",
+      "label": "Content- type",
+      "description": "",
+      "optional": true,
+      "value": "multipart/form-data",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Content_Type",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction_header_Accept",
+      "label": "Accept",
+      "description": "",
+      "optional": true,
+      "value": "text/plain",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Accept",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction_path_transactionId",
+      "label": "Transaction id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "transactionId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction_$path",
+      "value": "=\"\"+baseUrl+\"/api/publicapi/v1/transactions/\"+transactionId+\"/files\"",
+      "group": "parameters",
+      "binding": {
+        "name": "operationPath",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction_$headers",
+      "value": "={Accept: Accept, Content-Type: Content_Type}",
+      "group": "parameters",
+      "binding": {
+        "name": "headers",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction_$queryParameters",
+      "value": "={}",
+      "group": "parameters",
+      "binding": {
+        "name": "queryParameters",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction_$method",
+      "value": "POST",
+      "group": "parameters",
+      "binding": {
+        "name": "method",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction_header_Accept",
+      "label": "Accept",
+      "description": "",
+      "optional": true,
+      "value": "text/plain",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Accept",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction_path_transactionId",
+      "label": "Transaction id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "transactionId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction_$path",
+      "value": "=\"\"+baseUrl+\"/api/publicapi/v1/transactions/\"+transactionId+\"/start\"",
+      "group": "parameters",
+      "binding": {
+        "name": "operationPath",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction_$headers",
+      "value": "={Accept: Accept}",
+      "group": "parameters",
+      "binding": {
+        "name": "headers",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction_$queryParameters",
+      "value": "={}",
+      "group": "parameters",
+      "binding": {
+        "name": "queryParameters",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction_$method",
+      "value": "POST",
+      "group": "parameters",
+      "binding": {
+        "name": "method",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files_header_Accept",
+      "label": "Accept",
+      "description": "",
+      "optional": true,
+      "value": "application/octet-stream",
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "Accept",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files_path_fileId",
+      "label": "File id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "fileId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files_path_transactionId",
+      "label": "Transaction id",
+      "description": "",
+      "optional": false,
+      "value": "",
+      "constraints": {
+        "notEmpty": true
+      },
+      "feel": "optional",
+      "group": "parameters",
+      "binding": {
+        "name": "transactionId",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files_$path",
+      "value": "=\"\"+baseUrl+\"/api/publicapi/v1/transactions/\"+transactionId+\"/files/\"+fileId+\"/download\"",
+      "group": "parameters",
+      "binding": {
+        "name": "operationPath",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files_$headers",
+      "value": "={Accept: Accept}",
+      "group": "parameters",
+      "binding": {
+        "name": "headers",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files_$queryParameters",
+      "value": "={}",
+      "group": "parameters",
+      "binding": {
+        "name": "queryParameters",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files_$method",
+      "value": "GET",
+      "group": "parameters",
+      "binding": {
+        "name": "method",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files",
+        "type": "simple"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction_body",
+      "value": "={\n  \"skillId\": \"string\",\n  \"generateMobileInputLink\": true,\n  \"registrationParameters\": [\n    {\n      \"key\": \"aute Ut\",\n      \"value\": \"Duis dolore\"\n    },\n    {\n      \"key\": \"in cillum\",\n      \"value\": \"fugiat qui et cillum minim\"\n    }\n  ]\n}",
+      "feel": "required",
+      "group": "requestBody",
+      "binding": {
+        "name": "body",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "creates_a_processing_transaction__vantage_public_api___code_flow_auth_transactions_creates_a_processing_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction_body",
+      "value": "={}",
+      "feel": "required",
+      "group": "requestBody",
+      "binding": {
+        "name": "body",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_processing_of_the_files_in_new_transaction__vantage_public_api___code_flow_auth_transactions_starts_processing_of_the_files_in_new_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction_body",
+      "value": "={}",
+      "feel": "required",
+      "group": "requestBody",
+      "binding": {
+        "name": "body",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "adds_files_to_the_transaction__vantage_public_api___code_flow_auth_transactions_adds_files_to_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction_body",
+      "value": "={}",
+      "feel": "required",
+      "group": "requestBody",
+      "binding": {
+        "name": "body",
+        "type": "zeebe:input"
+      },
+      "condition": {
+        "property": "operationId",
+        "equals": "starts_the_transaction__vantage_public_api___code_flow_auth_transactions_starts_the_transaction",
+        "type": "simple"
+      },
+      "type": "String"
+    },
+    {
+      "id": "url",
+      "value": "= operationPath",
+      "group": "url",
+      "binding": {
+        "name": "url",
+        "type": "zeebe:input"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "resultVariable",
+      "label": "Result variable",
+      "description": "Name of variable to store the response in",
+      "group": "output",
+      "binding": {
+        "key": "resultVariable",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "String"
+    },
+    {
+      "id": "resultExpression",
+      "label": "Result expression",
+      "description": "Expression to map the response into process variables",
+      "feel": "required",
+      "group": "output",
+      "binding": {
+        "key": "resultExpression",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "Text"
+    },
+    {
+      "id": "storeResponse",
+      "label": "Store response",
+      "description": "Store the HTTP response body into the `response` object so resultExpression can read response.document.*",
+      "group": "output",
+      "binding": {
+        "name": "storeResponse",
+        "type": "zeebe:input"
+      },
+      "type": "Boolean",
+      "value": true,
+      "condition": {
+        "property": "operationId",
+        "oneOf": [
+          "downloads_the_source_file_of_the_transaction__vantage_public_api___code_flow_auth_transaction_documents_downloads_the_source_file_of_the_transaction",
+          "downloads_the_result_files__vantage_public_api___code_flow_auth_transactions_downloads_the_result_files"
+        ],
+        "type": "simple"
+      }
+    },
+    {
+      "id": "errorExpression",
+      "label": "Error expression",
+      "description": "Expression to handle errors. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/\" target=\"_blank\">documentation</a>.",
+      "feel": "required",
+      "group": "error",
+      "binding": {
+        "key": "errorExpression",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "Text"
+    },
+    {
+      "id": "retryCount",
+      "label": "Retries",
+      "description": "Number of retries",
+      "value": "3",
+      "feel": "optional",
+      "group": "retries",
+      "binding": {
+        "property": "retries",
+        "type": "zeebe:taskDefinition"
+      },
+      "type": "String"
+    },
+    {
+      "id": "retryBackoff",
+      "label": "Retry backoff",
+      "description": "ISO-8601 duration to wait between retries",
+      "value": "PT0S",
+      "group": "retries",
+      "binding": {
+        "key": "retryBackoff",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "String"
+    }
+  ],
+  "description": "",
+  "icon": {
+    "contents": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDI5LjU5IDQzMC4xIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYyMDM4OwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im0xMzQwLjI4LDBsLTMwLjMsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUwxMjUyLjU2LDBoLTk1LjE2bDkxLjQ0LDMwMC45MXYxMjkuMTloODkuMzJ2LTEyOS4xOUwxNDI5LjU5LDBoLTg5LjMyWiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTEwMzIuNDUsMTM4Ljc2Yy00Ljc4LDIxLjI3LTcuOTcsNDEuNDctMTIuMjMsNzAuNzFoLTIuNjZjLTQuMjUtMjkuMjQtNy40NC00OS40NC0xMi4yMy03MC43MUw5NzUuMDQsMGgtOTUuMTZsOTEuNDQsMzAwLjkxdjEyOS4xOWg4OS4zMnYtMTI5LjE5TDExNTIuMDcsMGgtODkuMzJsLTMwLjMsMTM4Ljc2WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTIwNy4zNCwwaC0xMTkuMDlMMCw0MzAuMWg5MC4zOGwxNS4xNC05Ny4yOWg4MC44M2wxNS4xNCw5Ny4yOWg5NC4xTDIwNy4zNCwwWm0tOTAuOSwyNjIuNjNsMjAuMTktMTI5LjcyYzMuMTktMjAuMiw1LjMyLTM5Ljg3LDcuOTctNjcuNTJoMi42NmMyLjY2LDI3LjY1LDQuNzgsNDcuMzIsNy45Nyw2Ny41MmwyMC4xOSwxMjkuNzJoLTU4Ljk5WiIvPgogIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTUxNy44MiwyMDEuNDl2LS41M2MzMC44NC0xMC42Myw1Mi42My00Mi41Myw1Mi42My04OC4yNSwwLTY5LjExLTM5LjM0LTExMi43MS0xMjMuMzQtMTEyLjcxaC0xMTkuNjJ2NDMwLjFoMTI3LjA2Yzg2LjEzLDAsMTI1LjQ3LTQ2Ljc4LDEyNS40Ny0xMjQuNCwwLTU5LjU0LTI0LjQ2LTkwLjkxLTYyLjItMTA0LjJabS0xMDMuMTQtMTM5LjI5aDI0LjQ2YzI4LjcxLDAsNDMuMDYsMTYuNDgsNDMuMDYsNTguNDhzLTE0LjM1LDU4LjQ4LTQzLjA2LDU4LjQ4aC0yNC40NlY2Mi4yWm0zMS45LDMwNS43aC0zMS45di0xMjguNjZoMzEuOWMyOS4yNCwwLDQyLjUzLDE4LjYxLDQyLjUzLDY0LjMzcy0xMy4yOSw2NC4zMy00Mi41Myw2NC4zM1oiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im04MTQuNDgsMjAxLjQ5di0uNTNjMzAuODQtMTAuNjMsNTIuNjMtNDIuNTMsNTIuNjMtODguMjUsMC02OS4xMS0zOS4zNC0xMTIuNzEtMTIzLjM0LTExMi43MWgtMTE5LjYydjQzMC4xaDEyNy4wNmM4Ni4xMywwLDEyNS40Ny00Ni43OCwxMjUuNDctMTI0LjQsMC01OS41NC0yNC40Ni05MC45MS02Mi4yLTEwNC4yWm0tMTAzLjE0LTEzOS4yOWgyNC40NmMyOC43MSwwLDQzLjA2LDE2LjQ4LDQzLjA2LDU4LjQ4cy0xNC4zNSw1OC40OC00My4wNiw1OC40OGgtMjQuNDZWNjIuMlptMzEuOSwzMDUuN2gtMzEuOXYtMTI4LjY2aDMxLjljMjkuMjQsMCw0Mi41MywxOC42MSw0Mi41Myw2NC4zM3MtMTMuMjksNjQuMzMtNDIuNTMsNjQuMzNaIi8+Cjwvc3ZnPg=="
+  }
+}

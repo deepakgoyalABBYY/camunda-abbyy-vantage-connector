@@ -1,0 +1,68 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Download  Vantage Results Template",
+  "id": "Template_0dnm3vn",
+  "version": 1,
+  "appliesTo": [
+    "bpmn:Activity"
+  ],
+  "elementType": {
+    "value": "bpmn:CallActivity"
+  },
+  "groups": [
+    {
+      "id": "templated-properties",
+      "label": "Templated properties",
+      "openByDefault": true
+    }
+  ],
+  "category": {
+    "id": "templates",
+    "name": "Templates"
+  },
+  "properties": [
+    {
+      "type": "String",
+      "value": "ABBYY_Vantage_Download_Results",
+      "binding": {
+        "type": "zeebe:calledElement",
+        "property": "processId"
+      },
+      "label": "Called Process ID",
+      "description": "ID of the process to be called by this call activity",
+      "group": "templated-properties"
+    },
+    {
+      "label": "Source variable for transactionInfo",
+      "type": "String",
+      "value": "=transactionInfo",
+      "feel": "required",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "transactionInfo"
+      },
+      "group": "templated-properties"
+    },
+    {
+      "label": "Target variable for =flatten(outputFiles)",
+      "type": "String",
+      "value": "resultFilesVantage",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "=flatten(outputFiles)"
+      },
+      "group": "templated-properties"
+    },
+    {
+      "label": "Binding",
+      "description": "Binding type for the external resource",
+      "type": "Hidden",
+      "value": "latest",
+      "binding": {
+        "type": "zeebe:calledElement",
+        "property": "bindingType"
+      }
+    }
+  ],
+  "description": "Downloads the processed files from Vantage."
+}

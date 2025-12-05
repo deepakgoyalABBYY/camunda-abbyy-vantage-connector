@@ -1,0 +1,50 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.8.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "328abc1"
+  },
+  "schemaVersion": 19,
+  "id": "File_Upload_Form",
+  "components": [
+    {
+      "text": "# **Mediclaim Document Processing**",
+      "type": "text",
+      "layout": {
+        "row": "Row_0pap2m7",
+        "columns": null
+      },
+      "id": "Field_0y1rt1y"
+    },
+    {
+      "type": "separator",
+      "layout": {
+        "row": "Row_0mvjxrs",
+        "columns": null
+      },
+      "id": "Field_1s1kynh"
+    },
+    {
+      "text": "Please upload the claim form and any supporting documents to begin processing.",
+      "type": "text",
+      "layout": {
+        "row": "Row_0vvifyu",
+        "columns": 15
+      },
+      "id": "Field_13h05wr"
+    },
+    {
+      "label": "Upload Files",
+      "type": "filepicker",
+      "layout": {
+        "row": "Row_1473tkc",
+        "columns": null
+      },
+      "id": "Field_08jgl29",
+      "key": "selectedFiles",
+      "multiple": true
+    }
+  ],
+  "type": "default"
+}
